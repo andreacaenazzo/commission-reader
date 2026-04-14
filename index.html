@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -8,51 +7,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 <style>
   :root {
-    --ivory: #FAF7F2;
-    --ivory-2: #F2ECE1;
-    --ink: #1A1917;
-    --ink-soft: #3A3833;
-    --ochre: #B8834A;
-    --ochre-soft: #E8D4B8;
-    --grey: #E8E3DB;
-    --grey-2: #CFC8BC;
-    --red: #A8422B;
-    --shadow: 0 1px 3px rgba(26,25,23,.06), 0 8px 24px rgba(26,25,23,.04);
+    --ivory: #FAF7F2; --ivory-2: #F2ECE1; --ink: #1A1917; --ink-soft: #3A3833;
+    --ochre: #B8834A; --ochre-soft: #E8D4B8; --grey: #E8E3DB; --grey-2: #CFC8BC;
+    --red: #A8422B; --shadow: 0 1px 3px rgba(26,25,23,.06), 0 8px 24px rgba(26,25,23,.04);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--ivory); color: var(--ink); font-family: "DM Sans", system-ui, sans-serif; font-size: 14px; line-height: 1.5; }
   body { min-height: 100vh; padding: 32px 40px 80px; }
 
-  /* Header */
-  header.app {
-    display: flex; flex-direction: column; gap: 18px;
-    padding-bottom: 24px; margin-bottom: 28px;
-    border-bottom: 1px solid var(--grey);
-  }
+  header.app { display: flex; flex-direction: column; gap: 18px; padding-bottom: 24px; margin-bottom: 28px; border-bottom: 1px solid var(--grey); }
   .brand-row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  .brand {
-    font-family: "Fraunces", serif; font-weight: 400;
-    font-size: 42px; line-height: 1; letter-spacing: -0.02em;
-    font-variation-settings: "opsz" 144, "SOFT" 50;
-  }
+  .brand { font-family: "Fraunces", serif; font-weight: 400; font-size: 42px; line-height: 1; letter-spacing: -0.02em; font-variation-settings: "opsz" 144, "SOFT" 50; }
   .brand em { font-style: italic; font-weight: 300; color: var(--ochre); }
-  .brand-sub {
-    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink-soft); font-weight: 500;
-  }
+  .brand-sub { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
   .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  button.btn {
-    font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 10px 16px; background: transparent; color: var(--ink);
-    border: 1px solid var(--ink); cursor: pointer;
-    transition: all 0.18s ease;
-    border-radius: 4px;
-  }
+  button.btn { font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 16px; background: transparent; color: var(--ink); border: 1px solid var(--ink); cursor: pointer; transition: all 0.18s ease; border-radius: 4px; }
   button.btn:hover { background: var(--ink); color: var(--ivory); }
   button.btn.primary { background: var(--ink); color: var(--ivory); }
   button.btn.primary:hover { background: var(--ochre); border-color: var(--ochre); color: var(--ivory); }
@@ -60,78 +32,36 @@
   button.btn.ghost:hover { background: var(--grey); color: var(--ink); }
   button.btn.danger:hover { background: var(--red); border-color: var(--red); color: var(--ivory); }
 
-  /* Client info */
-  .client-bar {
-    display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; gap: 24px;
-    padding: 16px 20px; background: var(--ivory-2); border: 1px solid var(--grey);
-    border-radius: 6px;
-  }
+  .client-bar { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; gap: 24px; padding: 16px 20px; background: var(--ivory-2); border: 1px solid var(--grey); border-radius: 6px; }
   .client-bar label { display: block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; font-weight: 500; }
-  .client-bar input {
-    width: 100%; border: none; background: transparent;
-    font-family: "Fraunces", serif; font-size: 18px; font-weight: 400;
-    color: var(--ink); padding: 0; outline: none;
-  }
+  .client-bar input { width: 100%; border: none; background: transparent; font-family: "Fraunces", serif; font-size: 18px; font-weight: 400; color: var(--ink); padding: 0; outline: none; }
   .client-bar input:focus { border-bottom: 1px solid var(--ochre); }
 
-  /* Dropzone */
-  .dropzone {
-    border: 2px dashed var(--grey-2); padding: 64px 24px;
-    text-align: center; margin: 24px 0; transition: all 0.2s ease;
-    background: var(--ivory-2); border-radius: 12px;
-  }
+  .dropzone { border: 2px dashed var(--grey-2); padding: 64px 24px; text-align: center; margin: 24px 0; transition: all 0.2s ease; background: var(--ivory-2); border-radius: 12px; }
   .dropzone.over { border-color: var(--ochre); background: var(--ochre-soft); transform: scale(1.01); }
   .dropzone h2 { font-family: "Fraunces", serif; font-weight: 400; font-size: 24px; margin-bottom: 8px; }
   .dropzone p { color: var(--ink-soft); margin-bottom: 20px; }
   .dropzone.hidden { display: none; }
 
-  /* Tabs */
   nav.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--grey); margin-bottom: 0; overflow-x: auto; }
-  .tab {
-    padding: 14px 22px; border: none; background: transparent; cursor: pointer;
-    font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500;
-    letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft);
-    border-bottom: 2px solid transparent; white-space: nowrap;
-    transition: all 0.15s ease;
-  }
+  .tab { padding: 14px 22px; border: none; background: transparent; cursor: pointer; font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s ease; }
   .tab:hover { color: var(--ink); }
   .tab.active { color: var(--ink); border-bottom-color: var(--ochre); }
-  .tab .count {
-    display: inline-block; margin-left: 8px; padding: 2px 8px;
-    background: var(--ochre); color: var(--ivory); border-radius: 10px;
-    font-size: 10px; letter-spacing: 0; font-weight: 600;
-  }
+  .tab .count { display: inline-block; margin-left: 8px; padding: 2px 8px; background: var(--ochre); color: var(--ivory); border-radius: 10px; font-size: 10px; letter-spacing: 0; font-weight: 600; }
   .tab:not(.active) .count { background: var(--grey-2); color: var(--ink-soft); }
 
-  /* Sheet container */
   .sheet-wrap { background: var(--ivory); padding: 24px 0 0; }
-  .sheet-title {
-    font-family: "Fraunces", serif; font-size: 24px; font-weight: 400;
-    margin-bottom: 4px; letter-spacing: -0.01em;
-  }
+  .sheet-title { font-family: "Fraunces", serif; font-size: 24px; font-weight: 400; margin-bottom: 4px; letter-spacing: -0.01em; }
   .sheet-subtitle { font-size: 12px; color: var(--ink-soft); margin-bottom: 20px; letter-spacing: 0.04em; }
 
-  /* Table */
   .table-container { overflow-x: auto; border-radius: 8px; box-shadow: var(--shadow); }
-  .order-table {
-    width: 100%; border-collapse: collapse; background: var(--ivory);
-  }
-  .order-table th {
-    background: var(--ink); color: var(--ivory);
-    padding: 14px 10px; text-align: left;
-    font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 500;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    border-right: 1px solid var(--ink-soft);
-    position: sticky; top: 0; z-index: 10;
-  }
+  .order-table { width: 100%; border-collapse: collapse; background: var(--ivory); }
+  .order-table th { background: var(--ink); color: var(--ivory); padding: 14px 10px; text-align: left; font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-right: 1px solid var(--ink-soft); position: sticky; top: 0; z-index: 10; }
   .order-table th:last-child { border-right: none; }
   .order-table th.num { text-align: right; }
   .order-table th.center { text-align: center; }
 
-  .order-table td {
-    padding: 12px 10px; border-bottom: 1px solid var(--grey);
-    vertical-align: middle; font-size: 13px;
-  }
+  .order-table td { padding: 12px 10px; border-bottom: 1px solid var(--grey); vertical-align: middle; font-size: 13px; }
   .order-table tbody tr:nth-child(even) td { background: var(--ivory-2); }
   .order-table tbody tr:hover td { background: var(--ochre-soft); }
   .order-table td.codice { font-family: "Fraunces", serif; font-weight: 500; font-size: 14px; letter-spacing: 0.02em; }
@@ -139,109 +69,48 @@
   .order-table td.center { text-align: center; }
   .order-table td.desc { color: var(--ink-soft); font-size: 12px; }
 
-  /* Image cell */
-  .img-cell {
-    width: 80px; height: 80px; background: var(--grey); border: 1px dashed var(--grey-2);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; overflow: hidden; position: relative;
-    transition: all 0.15s ease; border-radius: 4px;
-  }
+  .img-cell { width: 80px; height: 80px; background: var(--grey); border: 1px dashed var(--grey-2); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; transition: all 0.15s ease; border-radius: 4px; }
   .img-cell:hover { border-color: var(--ochre); background: var(--ochre-soft); }
   .img-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .img-cell .placeholder { font-size: 10px; color: var(--ink-soft); text-align: center; padding: 4px; letter-spacing: 0.04em; }
   
-  /* Bottoni immagine */
-  .img-actions {
-    position: absolute; top: 2px; right: 2px; display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s;
-  }
+  .img-actions { position: absolute; top: 2px; right: 2px; display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s; }
   .img-cell:hover .img-actions { opacity: 1; }
-  
-  .img-btn {
-    width: 22px; height: 22px; background: rgba(26,25,23,.8); color: var(--ivory); 
-    border: none; cursor: pointer; font-size: 12px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .img-btn { width: 22px; height: 22px; background: rgba(26,25,23,.8); color: var(--ivory); border: none; cursor: pointer; font-size: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
   .img-btn:hover { background: var(--ochre); }
   .img-btn.remove:hover { background: var(--red); }
 
-  /* Editable inputs */
-  input.qta-input {
-    width: 70px; padding: 8px; border: 1px solid var(--grey-2);
-    background: var(--ochre-soft); text-align: right; border-radius: 4px;
-    font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 600;
-    color: var(--ink); font-variant-numeric: tabular-nums;
-  }
+  input.qta-input { width: 70px; padding: 8px; border: 1px solid var(--grey-2); background: var(--ochre-soft); text-align: right; border-radius: 4px; font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
   input.qta-input:focus { outline: none; border-color: var(--ochre); background: #FBEFD7; box-shadow: 0 0 0 2px rgba(184, 131, 74, 0.2); }
-
-  textarea.note-input {
-    width: 100%; min-width: 140px; min-height: 40px; padding: 8px;
-    border: 1px solid var(--grey-2); background: var(--ivory); border-radius: 4px;
-    font-family: "DM Sans", sans-serif; font-size: 12px; color: var(--ink);
-    resize: vertical;
-  }
+  textarea.note-input { width: 100%; min-width: 140px; min-height: 40px; padding: 8px; border: 1px solid var(--grey-2); background: var(--ivory); border-radius: 4px; font-family: "DM Sans", sans-serif; font-size: 12px; color: var(--ink); resize: vertical; }
   textarea.note-input:focus { outline: none; border-color: var(--ochre); }
 
-  /* Totals */
-  tfoot tr td {
-    background: var(--ink) !important; color: var(--ivory);
-    font-family: "Fraunces", serif; font-size: 15px; font-weight: 500;
-    padding: 18px 10px; border: none;
-  }
+  tfoot tr td { background: var(--ink) !important; color: var(--ivory); font-family: "Fraunces", serif; font-size: 15px; font-weight: 500; padding: 18px 10px; border: none; }
   tfoot tr td.label { letter-spacing: 0.15em; text-transform: uppercase; font-size: 11px; font-family: "DM Sans", sans-serif; font-weight: 500; }
   tfoot tr td.num { text-align: right; font-variant-numeric: tabular-nums; }
   tfoot .total-ordered { color: var(--ochre); font-size: 18px; }
 
-  /* Grand total */
-  .grand-total {
-    margin-top: 32px; padding: 28px 32px; border-radius: 8px;
-    background: var(--ink); color: var(--ivory);
-    display: flex; justify-content: space-between; align-items: center;
-    box-shadow: var(--shadow);
-  }
-  .grand-total .gt-label {
-    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--grey-2);
-  }
-  .grand-total .gt-value {
-    font-family: "Fraunces", serif; font-size: 36px; font-weight: 400;
-    letter-spacing: -0.01em; color: var(--ochre);
-    font-variant-numeric: tabular-nums;
-  }
+  .grand-total { margin-top: 32px; padding: 28px 32px; border-radius: 8px; background: var(--ink); color: var(--ivory); display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); }
+  .grand-total .gt-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-2); }
+  .grand-total .gt-value { font-family: "Fraunces", serif; font-size: 36px; font-weight: 400; letter-spacing: -0.01em; color: var(--ochre); font-variant-numeric: tabular-nums; }
   .grand-total .gt-block { text-align: right; }
   .grand-total .gt-block.left { text-align: left; }
 
-  /* Status message */
-  .status {
-    position: fixed; bottom: 24px; right: 24px; border-radius: 4px;
-    background: var(--ink); color: var(--ivory);
-    padding: 14px 22px; font-size: 13px; font-weight: 500;
-    box-shadow: var(--shadow); z-index: 1000;
-    opacity: 0; transform: translateY(12px); transition: all 0.25s ease;
-    pointer-events: none;
-  }
+  .status { position: fixed; bottom: 24px; right: 24px; border-radius: 4px; background: var(--ink); color: var(--ivory); padding: 14px 22px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow); z-index: 1000; opacity: 0; transform: translateY(12px); transition: all 0.25s ease; pointer-events: none; }
   .status.show { opacity: 1; transform: translateY(0); }
 
-  /* Lightbox per Immagini */
-  .lightbox {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(26,25,23,0.9); display: flex; align-items: center; justify-content: center;
-    z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-  }
+  .lightbox { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(26,25,23,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .lightbox.active { opacity: 1; pointer-events: all; }
   .lightbox img { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
   .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 30px; cursor: pointer; }
-
-  /* Hidden */
   .hidden { display: none !important; }
 
-  /* Print */
   @media print {
     body { padding: 20px; background: white; }
     .actions, .dropzone, nav.tabs, input.qta-input, .img-actions { display: none; }
     .order-table, .grand-total { box-shadow: none; }
     .table-container { overflow: visible; }
   }
-
   @media (max-width: 900px) {
     body { padding: 20px; }
     .brand { font-size: 32px; }
@@ -270,29 +139,17 @@
   </div>
 
   <div class="client-bar">
-    <div>
-      <label>Cliente</label>
-      <input type="text" id="cliente" placeholder="Nome cliente">
-    </div>
-    <div>
-      <label>Data</label>
-      <input type="date" id="data">
-    </div>
-    <div>
-      <label>Stagione</label>
-      <input type="text" id="stagione" placeholder="PE26 / AI26">
-    </div>
-    <div>
-      <label>Riferimento</label>
-      <input type="text" id="riferimento" placeholder="Buyer / punto vendita">
-    </div>
+    <div><label>Cliente</label><input type="text" id="cliente" placeholder="Nome cliente"></div>
+    <div><label>Data</label><input type="date" id="data"></div>
+    <div><label>Stagione</label><input type="text" id="stagione" placeholder="PE26 / AI26"></div>
+    <div><label>Riferimento</label><input type="text" id="riferimento" placeholder="Buyer / punto vendita"></div>
   </div>
 </header>
 
 <main>
   <div id="dropzone" class="dropzone">
     <h2>Trascina qui un file .xlsx</h2>
-    <p>Oppure clicca sul pulsante in alto per caricarlo. I dati restano sicuri nel tuo browser.</p>
+    <p>Le immagini già presenti nell'Excel verranno lette automaticamente!</p>
     <button class="btn primary" onclick="document.getElementById('fileInput').click()">Seleziona file Excel</button>
   </div>
 
@@ -313,139 +170,149 @@
 </main>
 
 <div class="status" id="status"></div>
-
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <span class="lightbox-close">&times;</span>
-  <img id="lightbox-img" src="" alt="Zoom">
-</div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><span class="lightbox-close">&times;</span><img id="lightbox-img" src="" alt="Zoom"></div>
 
 <script>
-const STORAGE_KEY = 'caenazzo_copia_commissioni_v1_1';
-const state = {
-  sheets: [],
-  activeSheet: 0,
-  meta: { cliente: '', data: '', stagione: '', riferimento: '' }
-};
+const STORAGE_KEY = 'caenazzo_copia_commissioni_v2_0'; // Resettiamo la cache per evitare conflitti coi dati vecchi
+const state = { sheets: [], activeSheet: 0, meta: { cliente: '', data: '', stagione: '', riferimento: '' } };
 
-// ---- Formatters
 const fmtEur = n => '€ ' + (n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtInt = n => (n || 0).toLocaleString('it-IT');
-const toast = msg => {
-  const s = document.getElementById('status');
-  s.textContent = msg; s.classList.add('show');
-  clearTimeout(s._t); s._t = setTimeout(() => s.classList.remove('show'), 2500);
+const toast = msg => { const s = document.getElementById('status'); s.textContent = msg; s.classList.add('show'); clearTimeout(s._t); s._t = setTimeout(() => s.classList.remove('show'), 2500); };
+
+function openLightbox(e, src) { e.stopPropagation(); document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').classList.add('active'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {} }
+function load() { try { const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return false; Object.assign(state, JSON.parse(raw)); return state.sheets && state.sheets.length > 0; } catch(e) { return false; } }
+
+// Helper per convertire ArrayBuffer dell'immagine in Base64
+function bufferToBase64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) { binary += String.fromCharCode(bytes[i]); }
+  return window.btoa(binary);
+}
+
+// ---- NUOVO MOTORE DI LETTURA CON EXCELJS (Legge i dati E le immagini) ----
+document.getElementById('fileInput').onchange = async e => {
+  const file = e.target.files[0]; if (!file) return;
+  toast('Estrazione dati e immagini in corso...');
+  
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const wb = new ExcelJS.Workbook();
+    await wb.xlsx.load(arrayBuffer);
+
+    const sheets = [];
+    
+    wb.eachSheet((ws) => {
+      let headerIdx = -1;
+      let ci = {};
+
+      // 1. Trova l'intestazione ("Codice")
+      ws.eachRow((row, rowNum) => {
+        if (headerIdx !== -1) return;
+        const rowVals = row.values.map(v => String(v || '').toLowerCase().trim());
+        if (rowVals.includes('codice')) {
+          headerIdx = rowNum;
+          const col = key => rowVals.findIndex(v => v.includes(key));
+          ci = {
+            codice: col('codice'), desc: col('descriz'), imb: col('imball'),
+            qta: rowVals.findIndex(v => v.includes('q.tà stock') || v.includes('qta stock') || v === 'q.tà' || v === 'qta' || v.includes('stock')),
+            prezzo: col('prezzo')
+          };
+        }
+      });
+
+      if (headerIdx === -1 || ci.codice === -1) return;
+
+      // 2. Estrai i dati delle righe
+      const rows = [];
+      ws.eachRow((row, rowNum) => {
+        if (rowNum <= headerIdx) return;
+        const codCell = row.getCell(ci.codice);
+        const cod = String(codCell.value || '').trim();
+        if (!cod || cod.toLowerCase() === 'totale') return;
+
+        rows.push({
+          rowNum: rowNum, // Salviamo il numero riga per associargli l'immagine dopo
+          codice: cod,
+          descrizione: String(row.getCell(ci.desc).value || '').trim(),
+          imballaggi: String(row.getCell(ci.imb).value || '').trim(),
+          qtaStock: Number(row.getCell(ci.qta).value) || 0,
+          prezzo: Number(row.getCell(ci.prezzo).value) || 0,
+          qtaOrdinata: 0,
+          note: '',
+          image: null
+        });
+      });
+
+      // 3. ESTRAI LE IMMAGINI e associale alle righe corrette!
+      const images = ws.getImages();
+      images.forEach(img => {
+        try {
+          const imgData = wb.getImage(img.imageId);
+          if (imgData) {
+            // Calcola la riga a cui appartiene l'immagine (ExcelJS usa indici a base 0 per le coordinate native)
+            const imgRow = Math.floor(img.range.tl.nativeRow) + 1;
+            const base64 = bufferToBase64(imgData.buffer);
+            const dataUrl = `data:image/${imgData.extension};base64,${base64}`;
+
+            // Cerca la riga di quell'articolo. Permettiamo una tolleranza di 1 riga in caso le immagini non siano perfettamente allineate
+            const targetRow = rows.find(r => Math.abs(r.rowNum - imgRow) <= 1);
+            if (targetRow && !targetRow.image) {
+              targetRow.image = dataUrl;
+            }
+          }
+        } catch (err) { console.warn("Impossibile caricare un'immagine", err); }
+      });
+
+      if (rows.length) sheets.push({ name: ws.name, title: ws.name, rows });
+    });
+
+    if (!sheets.length) { toast('Nessun foglio valido (serve colonna "Codice")'); return; }
+    state.sheets = sheets;
+    state.activeSheet = 0;
+    save(); render(); toast(`Caricati ${sheets.length} fogli con immagini lette con successo!`);
+    
+  } catch (err) {
+    console.error(err);
+    toast('Errore durante la lettura del file Excel');
+  }
 };
 
-// ---- Lightbox Function
-function openLightbox(e, src) {
-  e.stopPropagation();
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox').classList.add('active');
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('active');
-}
-
-// ---- Persistence
-function save() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } 
-  catch(e) { console.warn('Salvataggio fallito', e); }
-}
-function load() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return false;
-    const parsed = JSON.parse(raw);
-    Object.assign(state, parsed);
-    return state.sheets && state.sheets.length > 0;
-  } catch(e) { return false; }
-}
-
-// ---- XLSX parsing
-function parseWorkbook(wb) {
-  const sheets = [];
-  wb.SheetNames.forEach(name => {
-    const ws = wb.Sheets[name];
-    const aoa = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
-    
-    let headerIdx = -1;
-    for (let i = 0; i < Math.min(aoa.length, 15); i++) {
-      const row = aoa[i].map(v => String(v).toLowerCase().trim());
-      if (row.includes('codice')) { headerIdx = i; break; }
-    }
-    if (headerIdx === -1) return;
-    
-    const headers = aoa[headerIdx].map(v => String(v).toLowerCase().trim());
-    const col = key => headers.findIndex(h => h.includes(key));
-    const ci = {
-      codice: col('codice'),
-      desc: col('descriz'),
-      imb: col('imball'),
-      qta: headers.findIndex(h => h.includes('q.tà stock') || h.includes('qta stock') || h === 'q.tà' || h === 'qta' || h.includes('stock')),
-      prezzo: col('prezzo')
-    };
-    
-    if (ci.codice === -1) return;
-    
-    let title = name;
-    for (let i = 0; i < headerIdx; i++) {
-      const firstCell = String(aoa[i][0] || '').trim();
-      if (firstCell && !firstCell.toLowerCase().includes('cliente') && !firstCell.toLowerCase().includes('data')) {
-        title = firstCell; break;
-      }
-    }
-    
-    const rows = [];
-    for (let i = headerIdx + 1; i < aoa.length; i++) {
-      const r = aoa[i];
-      const cod = String(r[ci.codice] || '').trim();
-      if (!cod || cod.toLowerCase() === 'totale') continue;
-      rows.push({
-        codice: cod,
-        descrizione: String(r[ci.desc] || '').trim(),
-        imballaggi: String(r[ci.imb] || '').trim(),
-        qtaStock: Number(r[ci.qta]) || 0,
-        prezzo: Number(r[ci.prezzo]) || 0,
-        qtaOrdinata: 0,
-        note: '',
-        image: null
-      });
-    }
-    if (rows.length) sheets.push({ name, title, rows });
-  });
-  return sheets;
-}
-
-// ---- Rendering
-function render() {
-  if (!state.sheets.length) {
-    document.getElementById('dropzone').classList.remove('hidden');
-    document.getElementById('app').classList.add('hidden');
-    return;
+const dz = document.getElementById('dropzone');
+['dragover', 'dragenter'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('over'); }));
+document.addEventListener('drop', e => {
+  if (e.target.closest('.img-cell')) return;
+  const f = e.dataTransfer?.files[0];
+  if (f && /\.xlsx?$/i.test(f.name)) {
+    document.getElementById('fileInput').files = e.dataTransfer.files;
+    document.getElementById('fileInput').onchange({ target: { files: [f] } });
   }
-  document.getElementById('dropzone').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  renderTabs();
-  renderSheet();
-  renderGrandTotal();
+});
+
+function render() {
+  if (!state.sheets.length) { document.getElementById('dropzone').classList.remove('hidden'); document.getElementById('app').classList.add('hidden'); return; }
+  document.getElementById('dropzone').classList.add('hidden'); document.getElementById('app').classList.remove('hidden');
+  renderTabs(); renderSheet(); renderGrandTotal();
 }
 
 function renderTabs() {
-  const nav = document.getElementById('tabs');
-  nav.innerHTML = '';
+  const nav = document.getElementById('tabs'); nav.innerHTML = '';
   state.sheets.forEach((s, i) => {
     const ordered = s.rows.reduce((a, r) => a + (r.qtaOrdinata > 0 ? 1 : 0), 0);
     const btn = document.createElement('button');
     btn.className = 'tab' + (i === state.activeSheet ? ' active' : '');
     btn.innerHTML = `${s.name}${ordered > 0 ? `<span class="count">${ordered}</span>` : ''}`;
-    btn.onclick = () => { state.activeSheet = i; render(); };
-    nav.appendChild(btn);
+    btn.onclick = () => { state.activeSheet = i; render(); }; nav.appendChild(btn);
   });
 }
 
 function renderSheet() {
-  const s = state.sheets[state.activeSheet];
-  if (!s) return;
+  const s = state.sheets[state.activeSheet]; if (!s) return;
   const wrap = document.getElementById('sheetWrap');
   const totalStock = s.rows.reduce((a, r) => a + r.qtaStock, 0);
   const totalValue = s.rows.reduce((a, r) => a + (r.qtaStock * r.prezzo), 0);
@@ -459,33 +326,23 @@ function renderSheet() {
       <table class="order-table">
         <thead>
           <tr>
-            <th style="width:110px">Codice</th>
-            <th style="width:90px">Immagine</th>
-            <th>Descrizione</th>
-            <th style="width:90px" class="center">Imballi</th>
-            <th style="width:80px" class="num">Stock</th>
-            <th style="width:90px" class="num">Prezzo</th>
-            <th style="width:100px" class="num">Val. Stock</th>
-            <th style="width:90px" class="center">Q.tà Ord.</th>
-            <th style="width:100px" class="num">Tot. Ord.</th>
+            <th style="width:110px">Codice</th><th style="width:90px">Immagine</th><th>Descrizione</th>
+            <th style="width:90px" class="center">Imballi</th><th style="width:80px" class="num">Stock</th>
+            <th style="width:90px" class="num">Prezzo</th><th style="width:100px" class="num">Val. Stock</th>
+            <th style="width:90px" class="center">Q.tà Ord.</th><th style="width:100px" class="num">Tot. Ord.</th>
             <th style="width:150px">Note</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
         <tfoot>
           <tr>
-            <td colspan="4" class="label">Totali foglio</td>
-            <td class="num">${fmtInt(totalStock)}</td>
-            <td></td>
-            <td class="num">${fmtEur(totalValue)}</td>
-            <td class="num total-ordered">${fmtInt(totalOrdered)}</td>
-            <td class="num total-ordered">${fmtEur(totalOrderedVal)}</td>
-            <td></td>
+            <td colspan="4" class="label">Totali foglio</td><td class="num">${fmtInt(totalStock)}</td><td></td>
+            <td class="num">${fmtEur(totalValue)}</td><td class="num total-ordered">${fmtInt(totalOrdered)}</td>
+            <td class="num total-ordered">${fmtEur(totalOrderedVal)}</td><td></td>
           </tr>
         </tfoot>
       </table>
-    </div>
-  `;
+    </div>`;
   const tbody = document.getElementById('rows');
   s.rows.forEach((r, idx) => tbody.appendChild(renderRow(r, idx)));
 }
@@ -496,34 +353,18 @@ function renderRow(r, idx) {
   const totOrd = r.qtaOrdinata * r.prezzo;
 
   tr.innerHTML = `
-    <td class="codice">${escapeHtml(r.codice)}</td>
-    <td></td>
-    <td class="desc">${escapeHtml(r.descrizione)}</td>
-    <td class="center">${escapeHtml(r.imballaggi)}</td>
-    <td class="num">${fmtInt(r.qtaStock)}</td>
-    <td class="num">${fmtEur(r.prezzo)}</td>
-    <td class="num">${fmtEur(valStock)}</td>
-    <td class="center"></td>
-    <td class="num">${totOrd > 0 ? fmtEur(totOrd) : '—'}</td>
-    <td></td>
-  `;
+    <td class="codice">${escapeHtml(r.codice)}</td><td></td><td class="desc">${escapeHtml(r.descrizione)}</td>
+    <td class="center">${escapeHtml(r.imballaggi)}</td><td class="num">${fmtInt(r.qtaStock)}</td>
+    <td class="num">${fmtEur(r.prezzo)}</td><td class="num">${fmtEur(valStock)}</td><td class="center"></td>
+    <td class="num">${totOrd > 0 ? fmtEur(totOrd) : '—'}</td><td></td>`;
 
-  // Image cell
   const imgTd = tr.children[1];
   const imgCell = document.createElement('div');
   imgCell.className = 'img-cell';
   
   if (r.image) {
-    imgCell.innerHTML = `
-      <img src="${r.image}" alt="">
-      <div class="img-actions">
-        <button class="img-btn zoom" title="Ingrandisci">🔍</button>
-        <button class="img-btn remove" title="Rimuovi">×</button>
-      </div>
-    `;
-    imgCell.querySelector('.remove').onclick = (e) => {
-      e.stopPropagation(); r.image = null; save(); renderSheet();
-    };
+    imgCell.innerHTML = `<img src="${r.image}" alt=""><div class="img-actions"><button class="img-btn zoom" title="Ingrandisci">🔍</button><button class="img-btn remove" title="Rimuovi">×</button></div>`;
+    imgCell.querySelector('.remove').onclick = (e) => { e.stopPropagation(); r.image = null; save(); renderSheet(); };
     imgCell.querySelector('.zoom').onclick = (e) => openLightbox(e, r.image);
     imgCell.querySelector('img').onclick = (e) => openLightbox(e, r.image);
   } else {
@@ -533,361 +374,129 @@ function renderRow(r, idx) {
   
   imgCell.ondragover = (e) => { e.preventDefault(); imgCell.style.borderColor = 'var(--ochre)'; };
   imgCell.ondragleave = () => { imgCell.style.borderColor = ''; };
-  imgCell.ondrop = (e) => {
-    e.preventDefault(); imgCell.style.borderColor = '';
-    if (e.dataTransfer.files[0]) loadImageFile(r, e.dataTransfer.files[0]);
-  };
-  imgCell.tabIndex = 0;
-  imgCell.onpaste = (e) => handlePaste(e, r);
+  imgCell.ondrop = (e) => { e.preventDefault(); imgCell.style.borderColor = ''; if (e.dataTransfer.files[0]) loadImageFile(r, e.dataTransfer.files[0]); };
+  imgCell.tabIndex = 0; imgCell.onpaste = (e) => handlePaste(e, r);
   imgTd.appendChild(imgCell);
 
-  // Qta input
   const qtaTd = tr.children[7];
   const qtaInput = document.createElement('input');
   qtaInput.type = 'number'; qtaInput.min = 0; qtaInput.className = 'qta-input';
-  qtaInput.value = r.qtaOrdinata || '';
-  qtaInput.placeholder = '0';
-  qtaInput.oninput = () => {
-    r.qtaOrdinata = Math.max(0, Number(qtaInput.value) || 0);
-    save();
-    updateRowTotals(tr, r);
-    renderSheetFooter();
-    renderGrandTotal();
-    renderTabs();
-  };
+  qtaInput.value = r.qtaOrdinata || ''; qtaInput.placeholder = '0';
+  qtaInput.oninput = () => { r.qtaOrdinata = Math.max(0, Number(qtaInput.value) || 0); save(); updateRowTotals(tr, r); renderSheetFooter(); renderGrandTotal(); renderTabs(); };
   qtaTd.appendChild(qtaInput);
 
-  // Note textarea
   const noteTd = tr.children[9];
   const noteInput = document.createElement('textarea');
-  noteInput.className = 'note-input'; noteInput.rows = 1;
-  noteInput.value = r.note || '';
-  noteInput.placeholder = 'Note...';
-  noteInput.oninput = () => { r.note = noteInput.value; save(); };
-  noteTd.appendChild(noteInput);
-
+  noteInput.className = 'note-input'; noteInput.rows = 1; noteInput.value = r.note || ''; noteInput.placeholder = 'Note...';
+  noteInput.oninput = () => { r.note = noteInput.value; save(); }; noteTd.appendChild(noteInput);
   return tr;
 }
 
-function updateRowTotals(tr, r) {
-  const totOrd = r.qtaOrdinata * r.prezzo;
-  tr.children[8].textContent = totOrd > 0 ? fmtEur(totOrd) : '—';
-}
-
+function updateRowTotals(tr, r) { const totOrd = r.qtaOrdinata * r.prezzo; tr.children[8].textContent = totOrd > 0 ? fmtEur(totOrd) : '—'; }
 function renderSheetFooter() {
-  const s = state.sheets[state.activeSheet];
-  if (!s) return;
-  const tot = s.rows.reduce((a, r) => a + r.qtaOrdinata, 0);
-  const totVal = s.rows.reduce((a, r) => a + (r.qtaOrdinata * r.prezzo), 0);
-  const tf = document.querySelector('tfoot tr');
-  if (tf) {
-    tf.children[3].textContent = fmtInt(tot);
-    tf.children[4].textContent = fmtEur(totVal);
-  }
+  const s = state.sheets[state.activeSheet]; if (!s) return;
+  const tot = s.rows.reduce((a, r) => a + r.qtaOrdinata, 0); const totVal = s.rows.reduce((a, r) => a + (r.qtaOrdinata * r.prezzo), 0);
+  const tf = document.querySelector('tfoot tr'); if (tf) { tf.children[3].textContent = fmtInt(tot); tf.children[4].textContent = fmtEur(totVal); }
 }
-
 function renderGrandTotal() {
   const total = state.sheets.reduce((a, s) => a + s.rows.reduce((b, r) => b + (r.qtaOrdinata * r.prezzo), 0), 0);
   const pezzi = state.sheets.reduce((a, s) => a + s.rows.reduce((b, r) => b + r.qtaOrdinata, 0), 0);
   const articoli = state.sheets.reduce((a, s) => a + s.rows.filter(r => r.qtaOrdinata > 0).length, 0);
-  document.getElementById('gtValue').textContent = fmtEur(total);
-  document.getElementById('gtBreakdown').textContent = `${articoli} articoli · ${fmtInt(pezzi)} pezzi`;
+  document.getElementById('gtValue').textContent = fmtEur(total); document.getElementById('gtBreakdown').textContent = `${articoli} articoli · ${fmtInt(pezzi)} pezzi`;
 }
 
-// ---- Image handling (Optimized)
-function pickImage(row) {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = () => { if (input.files[0]) loadImageFile(row, input.files[0]); };
-  input.click();
-}
+function pickImage(row) { const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.onchange = () => { if (input.files[0]) loadImageFile(row, input.files[0]); }; input.click(); }
 function loadImageFile(row, file) {
   const reader = new FileReader();
   reader.onload = e => {
     const img = new Image();
     img.onload = () => {
-      const max = 600; 
-      let w = img.width, h = img.height;
-      if (w > max || h > max) {
-        const ratio = Math.min(max / w, max / h);
-        w = Math.round(w * ratio); h = Math.round(h * ratio);
-      }
-      const canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, w, h);
-      ctx.drawImage(img, 0, 0, w, h);
-      
-      row.image = canvas.toDataURL('image/jpeg', 0.85);
-      save(); renderSheet();
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+      const max = 500; let w = img.width, h = img.height;
+      if (w > max || h > max) { const ratio = Math.min(max / w, max / h); w = Math.round(w * ratio); h = Math.round(h * ratio); }
+      const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d'); ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
+      row.image = canvas.toDataURL('image/png'); save(); renderSheet();
+    }; img.src = e.target.result;
+  }; reader.readAsDataURL(file);
 }
 function handlePaste(e, row) {
   const items = e.clipboardData?.items || [];
-  for (const item of items) {
-    if (item.type.startsWith('image/')) {
-      const file = item.getAsFile();
-      if (file) { loadImageFile(row, file); e.preventDefault(); return; }
-    }
-  }
+  for (const item of items) { if (item.type.startsWith('image/')) { const file = item.getAsFile(); if (file) { loadImageFile(row, file); e.preventDefault(); return; } } }
 }
-
 document.addEventListener('paste', e => {
   if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
-  const s = state.sheets[state.activeSheet];
-  if (!s) return;
-  const target = s.rows.find(r => !r.image);
-  if (target) handlePaste(e, target);
+  const s = state.sheets[state.activeSheet]; if (!s) return;
+  const target = s.rows.find(r => !r.image); if (target) handlePaste(e, target);
 });
 
-// ---- File input
-document.getElementById('btnLoad').onclick = () => document.getElementById('fileInput').click();
-document.getElementById('fileInput').onchange = e => {
-  const file = e.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    const wb = XLSX.read(new Uint8Array(ev.target.result), { type: 'array' });
-    const sheets = parseWorkbook(wb);
-    if (!sheets.length) { toast('Nessun foglio valido trovato (serve colonna "Codice")'); return; }
-    state.sheets = sheets;
-    state.activeSheet = 0;
-    save(); render(); toast(`Caricati ${sheets.length} fogli`);
-  };
-  reader.readAsArrayBuffer(file);
-};
-
-// ---- Drag/drop on page
-const dz = document.getElementById('dropzone');
-['dragover', 'dragenter'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('over'); }));
-['dragleave', 'drop'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('over'); }));
-document.addEventListener('drop', e => {
-  if (e.target.closest('.img-cell')) return;
-  const f = e.dataTransfer?.files[0];
-  if (f && /\.xlsx?$/i.test(f.name)) {
-    document.getElementById('fileInput').files = e.dataTransfer.files;
-    document.getElementById('fileInput').onchange({ target: { files: [f] } });
-  }
-});
-
-// ---- Client info binding
 ['cliente', 'data', 'stagione', 'riferimento'].forEach(k => {
-  const el = document.getElementById(k);
-  el.value = state.meta[k] || '';
-  el.oninput = () => { state.meta[k] = el.value; save(); };
+  const el = document.getElementById(k); el.value = state.meta[k] || ''; el.oninput = () => { state.meta[k] = el.value; save(); };
 });
 
-// ---- Export XLSX (ExcelJS, with embedded images) - FIX DEFINITIVO ANCORAGGIO ----
 document.getElementById('btnSave').onclick = async () => {
   if (!state.sheets.length) { toast('Nessun dato da esportare'); return; }
   toast('Generazione xlsx in corso...');
-
-  const wb = new ExcelJS.Workbook();
-  wb.creator = 'Andrea Caenazzo';
-  wb.created = new Date();
-
-  const INK = 'FF1A1917', IVORY = 'FFFAF7F2', IVORY2 = 'FFF2ECE1',
-        OCHRE = 'FFB8834A', OCHRESOFT = 'FFE8D4B8', GREY = 'FFE8E3DB';
+  const wb = new ExcelJS.Workbook(); wb.creator = 'Andrea Caenazzo'; wb.created = new Date();
+  const INK = 'FF1A1917', IVORY = 'FFFAF7F2', IVORY2 = 'FFF2ECE1', OCHRE = 'FFB8834A', OCHRESOFT = 'FFE8D4B8', GREY = 'FFE8E3DB';
 
   for (const s of state.sheets) {
-    const ws = wb.addWorksheet(s.name.slice(0, 31), {
-      properties: { defaultRowHeight: 18 },
-      pageSetup: { paperSize: 9, orientation: 'landscape', fitToPage: true }
-    });
+    const ws = wb.addWorksheet(s.name.slice(0, 31), { properties: { defaultRowHeight: 18 }, pageSetup: { paperSize: 9, orientation: 'landscape', fitToPage: true } });
+    ws.columns = [ { width: 14 }, { width: 14 }, { width: 34 }, { width: 12 }, { width: 10 }, { width: 12 }, { width: 16 }, { width: 14 }, { width: 16 }, { width: 30 } ];
 
-    ws.columns = [
-      { width: 14 }, { width: 14 }, { width: 34 }, { width: 12 },
-      { width: 10 }, { width: 12 }, { width: 16 }, { width: 14 },
-      { width: 16 }, { width: 30 }
-    ];
+    ws.mergeCells('A1:J1'); const titleCell = ws.getCell('A1'); titleCell.value = s.title; titleCell.font = { name: 'Georgia', size: 16, bold: true, color: { argb: INK } }; titleCell.alignment = { horizontal: 'center', vertical: 'middle' }; ws.getRow(1).height = 28;
+    ws.mergeCells('A2:J2'); const metaCell = ws.getCell('A2'); metaCell.value = `Cliente: ${state.meta.cliente || '—'}    Data: ${state.meta.data || '—'}    Stagione: ${state.meta.stagione || '—'}    Rif: ${state.meta.riferimento || '—'}    Agente: Andrea Caenazzo`; metaCell.font = { name: 'Calibri', size: 10, italic: true, color: { argb: 'FF595959' } }; metaCell.alignment = { horizontal: 'center', vertical: 'middle' }; ws.getRow(2).height = 20;
 
-    ws.mergeCells('A1:J1');
-    const titleCell = ws.getCell('A1');
-    titleCell.value = s.title;
-    titleCell.font = { name: 'Georgia', size: 16, bold: true, color: { argb: INK } };
-    titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
-    ws.getRow(1).height = 28;
-
-    ws.mergeCells('A2:J2');
-    const metaCell = ws.getCell('A2');
-    metaCell.value = `Cliente: ${state.meta.cliente || '—'}    Data: ${state.meta.data || '—'}    Stagione: ${state.meta.stagione || '—'}    Rif: ${state.meta.riferimento || '—'}    Agente: Andrea Caenazzo`;
-    metaCell.font = { name: 'Calibri', size: 10, italic: true, color: { argb: 'FF595959' } };
-    metaCell.alignment = { horizontal: 'center', vertical: 'middle' };
-    ws.getRow(2).height = 20;
-
-    const headers = ['Codice', 'Immagine', 'Descrizione', 'Imballi', 'Stock',
-                     'Prezzo (€)', 'Val. Stock (€)', 'Q.tà Ord.', 'Tot. Ord. (€)', 'Note'];
+    const headers = ['Codice', 'Immagine', 'Descrizione', 'Imballi', 'Stock', 'Prezzo (€)', 'Val. Stock (€)', 'Q.tà Ord.', 'Tot. Ord. (€)', 'Note'];
     const headerRow = ws.getRow(4);
-    headers.forEach((h, i) => {
-      const cell = headerRow.getCell(i + 1);
-      cell.value = h;
-      cell.font = { name: 'Calibri', size: 10, bold: true, color: { argb: IVORY } };
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: INK } };
-      cell.alignment = { horizontal: 'center', vertical: 'middle' };
-      cell.border = { top: { style: 'thin', color: { argb: INK } }, bottom: { style: 'thin', color: { argb: INK } } };
-    });
+    headers.forEach((h, i) => { const cell = headerRow.getCell(i + 1); cell.value = h; cell.font = { name: 'Calibri', size: 10, bold: true, color: { argb: IVORY } }; cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: INK } }; cell.alignment = { horizontal: 'center', vertical: 'middle' }; cell.border = { top: { style: 'thin', color: { argb: INK } }, bottom: { style: 'thin', color: { argb: INK } } }; });
     headerRow.height = 26;
 
     const startRow = 5;
     s.rows.forEach((r, idx) => {
-      const rowNum = startRow + idx;
-      const row = ws.getRow(rowNum);
-      row.values = [
-        r.codice, null, r.descrizione, r.imballaggi, r.qtaStock, r.prezzo,
-        { formula: `E${rowNum}*F${rowNum}` },
-        r.qtaOrdinata || null,
-        r.qtaOrdinata ? { formula: `H${rowNum}*F${rowNum}` } : null,
-        r.note
-      ];
+      const rowNum = startRow + idx; const row = ws.getRow(rowNum);
+      row.values = [ r.codice, null, r.descrizione, r.imballaggi, r.qtaStock, r.prezzo, { formula: `E${rowNum}*F${rowNum}` }, r.qtaOrdinata || null, r.qtaOrdinata ? { formula: `H${rowNum}*F${rowNum}` } : null, r.note ];
       row.height = 65;
-
-      row.eachCell((cell) => {
-        cell.font = { name: 'Calibri', size: 10 };
-        cell.alignment = { vertical: 'middle', wrapText: true };
-        cell.border = { bottom: { style: 'hair', color: { argb: GREY } } };
-        if (idx % 2 === 1) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: IVORY2 } };
-      });
-      row.getCell(1).font = { name: 'Georgia', size: 11, bold: true };
-      row.getCell(1).alignment = { horizontal: 'center', vertical: 'middle' };
-      row.getCell(4).alignment = { horizontal: 'center', vertical: 'middle' };
-      row.getCell(5).numFmt = '#,##0';
-      row.getCell(5).alignment = { horizontal: 'right', vertical: 'middle' };
-      row.getCell(6).numFmt = '€ #,##0.00';
-      row.getCell(6).alignment = { horizontal: 'right', vertical: 'middle' };
-      row.getCell(7).numFmt = '€ #,##0.00';
-      row.getCell(7).alignment = { horizontal: 'right', vertical: 'middle' };
-      row.getCell(8).alignment = { horizontal: 'center', vertical: 'middle' };
-      row.getCell(8).font = { name: 'Calibri', size: 11, bold: true, color: { argb: 'FF8B5A2B' } };
-      if (r.qtaOrdinata) {
-        row.getCell(8).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: OCHRESOFT } };
-      }
-      row.getCell(9).numFmt = '€ #,##0.00';
-      row.getCell(9).alignment = { horizontal: 'right', vertical: 'middle' };
-      row.getCell(9).font = { name: 'Calibri', size: 11, bold: true };
+      row.eachCell((cell) => { cell.font = { name: 'Calibri', size: 10 }; cell.alignment = { vertical: 'middle', wrapText: true }; cell.border = { bottom: { style: 'hair', color: { argb: GREY } } }; if (idx % 2 === 1) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: IVORY2 } }; });
+      row.getCell(1).font = { name: 'Georgia', size: 11, bold: true }; row.getCell(1).alignment = { horizontal: 'center', vertical: 'middle' }; row.getCell(4).alignment = { horizontal: 'center', vertical: 'middle' }; row.getCell(5).numFmt = '#,##0'; row.getCell(5).alignment = { horizontal: 'right', vertical: 'middle' }; row.getCell(6).numFmt = '€ #,##0.00'; row.getCell(6).alignment = { horizontal: 'right', vertical: 'middle' }; row.getCell(7).numFmt = '€ #,##0.00'; row.getCell(7).alignment = { horizontal: 'right', vertical: 'middle' }; row.getCell(8).alignment = { horizontal: 'center', vertical: 'middle' }; row.getCell(8).font = { name: 'Calibri', size: 11, bold: true, color: { argb: 'FF8B5A2B' } }; if (r.qtaOrdinata) { row.getCell(8).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: OCHRESOFT } }; } row.getCell(9).numFmt = '€ #,##0.00'; row.getCell(9).alignment = { horizontal: 'right', vertical: 'middle' }; row.getCell(9).font = { name: 'Calibri', size: 11, bold: true };
 
       if (r.image) {
         try {
-          const match = r.image.match(/^data:image\/(\w+);base64,(.+)$/);
-          if (match && match[2]) {
-            const ext = match[1] === 'jpg' ? 'jpeg' : match[1];
-            const imageId = wb.addImage({ base64: match[2], extension: ext });
-            
-            ws.addImage(imageId, {
-              tl: { col: 1, row: rowNum - 1 },
-              br: { col: 2, row: rowNum },
-              editAs: 'oneCell'
-            });
+          const base64Data = r.image.split(',')[1];
+          if (base64Data) {
+            const imageId = wb.addImage({ base64: base64Data, extension: 'png' });
+            ws.addImage(imageId, { tl: { col: 1.1, row: rowNum - 0.9 }, ext: { width: 75, height: 75 } });
           }
         } catch(e) { console.warn('Errore incorporamento immagine', e); }
       }
     });
 
-    const totRow = startRow + s.rows.length + 1;
-    const tRow = ws.getRow(totRow);
-    ws.mergeCells(totRow, 1, totRow, 4);
-    tRow.getCell(1).value = 'TOTALE';
-    tRow.getCell(1).alignment = { horizontal: 'right', vertical: 'middle' };
-    tRow.getCell(5).value = { formula: `SUM(E${startRow}:E${totRow - 2})` };
-    tRow.getCell(5).numFmt = '#,##0';
-    tRow.getCell(7).value = { formula: `SUM(G${startRow}:G${totRow - 2})` };
-    tRow.getCell(7).numFmt = '€ #,##0.00';
-    tRow.getCell(8).value = { formula: `SUM(H${startRow}:H${totRow - 2})` };
-    tRow.getCell(8).numFmt = '#,##0';
-    tRow.getCell(9).value = { formula: `SUM(I${startRow}:I${totRow - 2})` };
-    tRow.getCell(9).numFmt = '€ #,##0.00';
-    tRow.eachCell((cell) => {
-      cell.font = { name: 'Calibri', size: 11, bold: true, color: { argb: IVORY } };
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: INK } };
-      cell.alignment = cell.alignment || { horizontal: 'right', vertical: 'middle' };
-    });
-    tRow.height = 24;
-
+    const totRow = startRow + s.rows.length + 1; const tRow = ws.getRow(totRow); ws.mergeCells(totRow, 1, totRow, 4); tRow.getCell(1).value = 'TOTALE'; tRow.getCell(1).alignment = { horizontal: 'right', vertical: 'middle' }; tRow.getCell(5).value = { formula: `SUM(E${startRow}:E${totRow - 2})` }; tRow.getCell(5).numFmt = '#,##0'; tRow.getCell(7).value = { formula: `SUM(G${startRow}:G${totRow - 2})` }; tRow.getCell(7).numFmt = '€ #,##0.00'; tRow.getCell(8).value = { formula: `SUM(H${startRow}:H${totRow - 2})` }; tRow.getCell(8).numFmt = '#,##0'; tRow.getCell(9).value = { formula: `SUM(I${startRow}:I${totRow - 2})` }; tRow.getCell(9).numFmt = '€ #,##0.00';
+    tRow.eachCell((cell) => { cell.font = { name: 'Calibri', size: 11, bold: true, color: { argb: IVORY } }; cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: INK } }; cell.alignment = cell.alignment || { horizontal: 'right', vertical: 'middle' }; }); tRow.height = 24;
     ws.views = [{ state: 'frozen', ySplit: 4 }];
   }
 
-  const buffer = await wb.xlsx.writeBuffer();
-  const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  const cliente = (state.meta.cliente || 'ordine').replace(/[^a-z0-9]/gi, '_').toLowerCase();
-  const date = state.meta.data || new Date().toISOString().slice(0, 10);
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = `ordine_${cliente}_${date}.xlsx`;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  toast('Esportato .xlsx con immagini incluse correttamente!');
+  const buffer = await wb.xlsx.writeBuffer(); const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const cliente = (state.meta.cliente || 'ordine').replace(/[^a-z0-9]/gi, '_').toLowerCase(); const date = state.meta.data || new Date().toISOString().slice(0, 10); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `ordine_${cliente}_${date}.xlsx`; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); toast('Esportato .xlsx con immagini incluse correttamente!');
 };
 
-// ---- Export Print Report
 document.getElementById('btnReport').onclick = () => {
-  if (!state.sheets.length) { toast('Nessun dato'); return; }
-  const w = window.open('', '_blank');
-  const total = state.sheets.reduce((a, s) => a + s.rows.reduce((b, r) => b + (r.qtaOrdinata * r.prezzo), 0), 0);
+  if (!state.sheets.length) { toast('Nessun dato'); return; } const w = window.open('', '_blank'); const total = state.sheets.reduce((a, s) => a + s.rows.reduce((b, r) => b + (r.qtaOrdinata * r.prezzo), 0), 0);
   const sheetsHtml = state.sheets.map(s => {
-    const ordered = s.rows.filter(r => r.qtaOrdinata > 0);
-    if (!ordered.length) return '';
-    const subtot = ordered.reduce((a, r) => a + r.qtaOrdinata * r.prezzo, 0);
-    const rows = ordered.map(r => `
-      <tr>
-        <td>${r.image ? `<img src="${r.image}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;">` : ''}</td>
-        <td><strong>${escapeHtml(r.codice)}</strong><br><span style="color:#666;font-size:11px">${escapeHtml(r.descrizione)}</span></td>
-        <td style="text-align:center">${escapeHtml(r.imballaggi)}</td>
-        <td style="text-align:right">${r.qtaOrdinata}</td>
-        <td style="text-align:right">${fmtEur(r.prezzo)}</td>
-        <td style="text-align:right"><strong>${fmtEur(r.qtaOrdinata * r.prezzo)}</strong></td>
-        <td style="font-size:11px;color:#666">${escapeHtml(r.note)}</td>
-      </tr>
-    `).join('');
-    return `
-      <h2 style="font-family:Georgia,serif;margin-top:32px;border-bottom:2px solid #1A1917;padding-bottom:8px">${escapeHtml(s.title)}</h2>
-      <table style="width:100%;border-collapse:collapse;margin-top:12px">
-        <thead><tr style="background:#1A1917;color:#FAF7F2">
-          <th style="padding:8px;text-align:left">Foto</th><th style="padding:8px;text-align:left">Articolo</th>
-          <th style="padding:8px;text-align:center">Imb.</th>
-          <th style="padding:8px;text-align:right">Q.tà</th><th style="padding:8px;text-align:right">Prezzo</th>
-          <th style="padding:8px;text-align:right">Totale</th><th style="padding:8px;text-align:left">Note</th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-        <tfoot><tr style="background:#F2ECE1"><td colspan="5" style="padding:10px;text-align:right"><strong>Subtotale</strong></td>
-          <td style="padding:10px;text-align:right"><strong>${fmtEur(subtot)}</strong></td><td></td></tr></tfoot>
-      </table>`;
+    const ordered = s.rows.filter(r => r.qtaOrdinata > 0); if (!ordered.length) return ''; const subtot = ordered.reduce((a, r) => a + r.qtaOrdinata * r.prezzo, 0);
+    const rows = ordered.map(r => `<tr><td>${r.image ? `<img src="${r.image}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;">` : ''}</td><td><strong>${escapeHtml(r.codice)}</strong><br><span style="color:#666;font-size:11px">${escapeHtml(r.descrizione)}</span></td><td style="text-align:center">${escapeHtml(r.imballaggi)}</td><td style="text-align:right">${r.qtaOrdinata}</td><td style="text-align:right">${fmtEur(r.prezzo)}</td><td style="text-align:right"><strong>${fmtEur(r.qtaOrdinata * r.prezzo)}</strong></td><td style="font-size:11px;color:#666">${escapeHtml(r.note)}</td></tr>`).join('');
+    return `<h2 style="font-family:Georgia,serif;margin-top:32px;border-bottom:2px solid #1A1917;padding-bottom:8px">${escapeHtml(s.title)}</h2><table style="width:100%;border-collapse:collapse;margin-top:12px"><thead><tr style="background:#1A1917;color:#FAF7F2"><th style="padding:8px;text-align:left">Foto</th><th style="padding:8px;text-align:left">Articolo</th><th style="padding:8px;text-align:center">Imb.</th><th style="padding:8px;text-align:right">Q.tà</th><th style="padding:8px;text-align:right">Prezzo</th><th style="padding:8px;text-align:right">Totale</th><th style="padding:8px;text-align:left">Note</th></tr></thead><tbody>${rows}</tbody><tfoot><tr style="background:#F2ECE1"><td colspan="5" style="padding:10px;text-align:right"><strong>Subtotale</strong></td><td style="padding:10px;text-align:right"><strong>${fmtEur(subtot)}</strong></td><td></td></tr></tfoot></table>`;
   }).join('');
-  w.document.write(`<!DOCTYPE html><html><head><title>Ordine ${escapeHtml(state.meta.cliente || '')}</title>
-    <style>body{font-family:Georgia,serif;max-width:900px;margin:40px auto;padding:0 24px;color:#1A1917}
-    h1{font-size:36px;margin-bottom:4px}table td{padding:8px;border-bottom:1px solid #E8E3DB;vertical-align:middle}
-    .meta{color:#666;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
-    .grand{margin-top:32px;padding:20px;background:#1A1917;color:#FAF7F2;display:flex;justify-content:space-between;align-items:center;border-radius:8px;}
-    .grand .val{font-size:32px;color:#B8834A}
-    @media print{body{margin:20px}}</style></head><body>
-    <h1>Ordine · ${escapeHtml(state.meta.cliente || '—')}</h1>
-    <div class="meta">Data ${state.meta.data || '—'} · Stagione ${state.meta.stagione || '—'} · Rif. ${state.meta.riferimento || '—'} · Agente Andrea Caenazzo</div>
-    ${sheetsHtml}
-    <div class="grand"><div>TOTALE ORDINE COMPLESSIVO</div><div class="val">${fmtEur(total)}</div></div>
-    <script>setTimeout(()=>window.print(),300);<\/script>
-    </body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><title>Ordine ${escapeHtml(state.meta.cliente || '')}</title><style>body{font-family:Georgia,serif;max-width:900px;margin:40px auto;padding:0 24px;color:#1A1917} h1{font-size:36px;margin-bottom:4px}table td{padding:8px;border-bottom:1px solid #E8E3DB;vertical-align:middle} .meta{color:#666;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px} .grand{margin-top:32px;padding:20px;background:#1A1917;color:#FAF7F2;display:flex;justify-content:space-between;align-items:center;border-radius:8px;} .grand .val{font-size:32px;color:#B8834A} @media print{body{margin:20px}}</style></head><body><h1>Ordine · ${escapeHtml(state.meta.cliente || '—')}</h1><div class="meta">Data ${state.meta.data || '—'} · Stagione ${state.meta.stagione || '—'} · Rif. ${state.meta.riferimento || '—'} · Agente Andrea Caenazzo</div>${sheetsHtml}<div class="grand"><div>TOTALE ORDINE COMPLESSIVO</div><div class="val">${fmtEur(total)}</div></div><script>setTimeout(()=>window.print(),300);<\/script></body></html>`);
   w.document.close();
 };
 
-// ---- Reset
 document.getElementById('btnReset').onclick = () => {
   if (!confirm('Cancellare tutti i dati salvati?')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  state.sheets = []; state.activeSheet = 0;
-  state.meta = { cliente: '', data: '', stagione: '', riferimento: '' };
-  ['cliente','data','stagione','riferimento'].forEach(k => document.getElementById(k).value = '');
-  render();
-  toast('Dati cancellati');
+  localStorage.removeItem(STORAGE_KEY); state.sheets = []; state.activeSheet = 0; state.meta = { cliente: '', data: '', stagione: '', riferimento: '' };
+  ['cliente','data','stagione','riferimento'].forEach(k => document.getElementById(k).value = ''); render(); toast('Dati cancellati');
 };
 
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-// ---- Init
-if (load()) render();
-else render();
+if (load()) render(); else render();
 </script>
 </body>
 </html>
-```
