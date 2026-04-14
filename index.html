@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
 <style>
   :root {
@@ -71,7 +72,7 @@
 
   .img-cell { width: 80px; height: 80px; background: var(--grey); border: 1px dashed var(--grey-2); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; transition: all 0.15s ease; border-radius: 4px; }
   .img-cell:hover { border-color: var(--ochre); background: var(--ochre-soft); }
-  .img-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img-cell img { width: 100%; height: 100%; object-fit: cover; display: block; background: #fff; }
   .img-cell .placeholder { font-size: 10px; color: var(--ink-soft); text-align: center; padding: 4px; letter-spacing: 0.04em; }
   
   .img-actions { position: absolute; top: 2px; right: 2px; display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s; }
@@ -173,7 +174,7 @@
 <div class="lightbox" id="lightbox" onclick="closeLightbox()"><span class="lightbox-close">&times;</span><img id="lightbox-img" src="" alt="Zoom"></div>
 
 <script>
-const STORAGE_KEY = 'caenazzo_copia_commissioni_v2_0'; // Resettiamo la cache per evitare conflitti coi dati vecchi
+const STORAGE_KEY = 'caenazzo_copia_commissioni_v2_1'; 
 const state = { sheets: [], activeSheet: 0, meta: { cliente: '', data: '', stagione: '', riferimento: '' } };
 
 const fmtEur = n => '€ ' + (n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -185,7 +186,7 @@ function closeLightbox() { document.getElementById('lightbox').classList.remove(
 function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {} }
 function load() { try { const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return false; Object.assign(state, JSON.parse(raw)); return state.sheets && state.sheets.length > 0; } catch(e) { return false; } }
 
-// Helper per convertire ArrayBuffer dell'immagine in Base64
+// Helper per convertire il binario delle immagini in formato web
 function bufferToBase64(buffer) {
   let binary = '';
   const bytes = new Uint8Array(buffer);
@@ -194,91 +195,110 @@ function bufferToBase64(buffer) {
   return window.btoa(binary);
 }
 
-// ---- NUOVO MOTORE DI LETTURA CON EXCELJS (Legge i dati E le immagini) ----
+// ---- HYBRID ENGINE: Caricamento Sicuro Dati + Immagini ----
 document.getElementById('fileInput').onchange = async e => {
   const file = e.target.files[0]; if (!file) return;
-  toast('Estrazione dati e immagini in corso...');
+  toast('Estrazione dati in corso...');
   
   try {
     const arrayBuffer = await file.arrayBuffer();
-    const wb = new ExcelJS.Workbook();
-    await wb.xlsx.load(arrayBuffer);
-
+    
+    // 1. MOTORE PRINCIPALE (SheetJS): Estrae i testi in modo infallibile
+    const wbXLSX = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
     const sheets = [];
     
-    wb.eachSheet((ws) => {
+    wbXLSX.SheetNames.forEach(name => {
+      const ws = wbXLSX.Sheets[name];
+      const aoa = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      
       let headerIdx = -1;
-      let ci = {};
-
-      // 1. Trova l'intestazione ("Codice")
-      ws.eachRow((row, rowNum) => {
-        if (headerIdx !== -1) return;
-        const rowVals = row.values.map(v => String(v || '').toLowerCase().trim());
-        if (rowVals.includes('codice')) {
-          headerIdx = rowNum;
-          const col = key => rowVals.findIndex(v => v.includes(key));
-          ci = {
-            codice: col('codice'), desc: col('descriz'), imb: col('imball'),
-            qta: rowVals.findIndex(v => v.includes('q.tà stock') || v.includes('qta stock') || v === 'q.tà' || v === 'qta' || v.includes('stock')),
-            prezzo: col('prezzo')
-          };
+      for (let i = 0; i < Math.min(aoa.length, 15); i++) {
+        const row = aoa[i].map(v => String(v).toLowerCase().trim());
+        if (row.includes('codice')) { headerIdx = i; break; }
+      }
+      if (headerIdx === -1) return;
+      
+      const headers = aoa[headerIdx].map(v => String(v).toLowerCase().trim());
+      const col = key => headers.findIndex(h => h.includes(key));
+      const ci = {
+        codice: col('codice'), desc: col('descriz'), imb: col('imball'),
+        qta: headers.findIndex(h => h.includes('q.tà stock') || h.includes('qta stock') || h === 'q.tà' || h === 'qta' || h.includes('stock')),
+        prezzo: col('prezzo')
+      };
+      
+      if (ci.codice === -1) return;
+      
+      let title = name;
+      for (let i = 0; i < headerIdx; i++) {
+        const firstCell = String(aoa[i][0] || '').trim();
+        if (firstCell && !firstCell.toLowerCase().includes('cliente') && !firstCell.toLowerCase().includes('data')) {
+          title = firstCell; break;
         }
-      });
-
-      if (headerIdx === -1 || ci.codice === -1) return;
-
-      // 2. Estrai i dati delle righe
+      }
+      
       const rows = [];
-      ws.eachRow((row, rowNum) => {
-        if (rowNum <= headerIdx) return;
-        const codCell = row.getCell(ci.codice);
-        const cod = String(codCell.value || '').trim();
-        if (!cod || cod.toLowerCase() === 'totale') return;
-
+      for (let i = headerIdx + 1; i < aoa.length; i++) {
+        const r = aoa[i];
+        const cod = String(r[ci.codice] || '').trim();
+        if (!cod || cod.toLowerCase() === 'totale') continue;
+        
         rows.push({
-          rowNum: rowNum, // Salviamo il numero riga per associargli l'immagine dopo
+          rowNum: i, // Indice riga salvato per allineare l'immagine successivamente
           codice: cod,
-          descrizione: String(row.getCell(ci.desc).value || '').trim(),
-          imballaggi: String(row.getCell(ci.imb).value || '').trim(),
-          qtaStock: Number(row.getCell(ci.qta).value) || 0,
-          prezzo: Number(row.getCell(ci.prezzo).value) || 0,
+          descrizione: String(r[ci.desc] || '').trim(),
+          imballaggi: String(r[ci.imb] || '').trim(),
+          qtaStock: Number(r[ci.qta]) || 0,
+          prezzo: Number(r[ci.prezzo]) || 0,
           qtaOrdinata: 0,
           note: '',
           image: null
         });
-      });
-
-      // 3. ESTRAI LE IMMAGINI e associale alle righe corrette!
-      const images = ws.getImages();
-      images.forEach(img => {
-        try {
-          const imgData = wb.getImage(img.imageId);
-          if (imgData) {
-            // Calcola la riga a cui appartiene l'immagine (ExcelJS usa indici a base 0 per le coordinate native)
-            const imgRow = Math.floor(img.range.tl.nativeRow) + 1;
-            const base64 = bufferToBase64(imgData.buffer);
-            const dataUrl = `data:image/${imgData.extension};base64,${base64}`;
-
-            // Cerca la riga di quell'articolo. Permettiamo una tolleranza di 1 riga in caso le immagini non siano perfettamente allineate
-            const targetRow = rows.find(r => Math.abs(r.rowNum - imgRow) <= 1);
-            if (targetRow && !targetRow.image) {
-              targetRow.image = dataUrl;
-            }
-          }
-        } catch (err) { console.warn("Impossibile caricare un'immagine", err); }
-      });
-
-      if (rows.length) sheets.push({ name: ws.name, title: ws.name, rows });
+      }
+      if (rows.length) sheets.push({ name, title, rows });
     });
 
     if (!sheets.length) { toast('Nessun foglio valido (serve colonna "Codice")'); return; }
+
+    // 2. MOTORE SECONDARIO (ExcelJS): Cerca e aggancia le immagini in background
+    try {
+      const wbExcelJS = new ExcelJS.Workbook();
+      await wbExcelJS.xlsx.load(arrayBuffer.slice(0));
+
+      wbExcelJS.eachSheet((ws) => {
+        const targetSheet = sheets.find(s => s.name === ws.name);
+        if (!targetSheet) return;
+
+        const images = ws.getImages();
+        images.forEach(img => {
+          try {
+            if (img.range && img.range.tl) {
+              const imgData = wbExcelJS.getImage(img.imageId);
+              if (imgData) {
+                const imgRow = Math.floor(img.range.tl.nativeRow); // Riga nativa in Excel
+                // Cerca la riga di dati che corrisponde (con un margine di tolleranza di 1 riga)
+                const targetRow = targetSheet.rows.find(r => Math.abs(r.rowNum - imgRow) <= 1);
+                
+                if (targetRow && !targetRow.image) {
+                  const base64 = bufferToBase64(imgData.buffer);
+                  const ext = imgData.extension === 'jpeg' ? 'jpeg' : (imgData.extension || 'png');
+                  targetRow.image = `data:image/${ext};base64,${base64}`;
+                }
+              }
+            }
+          } catch (err) { /* Ignoriamo errori di singole immagini corrotte */ }
+        });
+      });
+    } catch (err) {
+      console.warn('Lettura immagini non supportata per questo file. Mostro solo dati.', err);
+    }
+
     state.sheets = sheets;
     state.activeSheet = 0;
-    save(); render(); toast(`Caricati ${sheets.length} fogli con immagini lette con successo!`);
+    save(); render(); toast(`Caricati ${sheets.length} fogli con successo!`);
     
   } catch (err) {
     console.error(err);
-    toast('Errore durante la lettura del file Excel');
+    toast('Errore critico durante la lettura dell\'Excel');
   }
 };
 
