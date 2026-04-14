@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Commission Reader · Andrea Caenazzo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,16 +16,17 @@
     --red: #A8422B; --shadow: 0 1px 3px rgba(26,25,23,.06), 0 8px 24px rgba(26,25,23,.04);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--ivory); color: var(--ink); font-family: "DM Sans", system-ui, sans-serif; font-size: 14px; line-height: 1.5; }
+  html, body { background: var(--ivory); color: var(--ink); font-family: "DM Sans", system-ui, sans-serif; font-size: 14px; line-height: 1.5; overflow-x: hidden; }
   body { min-height: 100vh; padding: 32px 40px 80px; }
 
   header.app { display: flex; flex-direction: column; gap: 18px; padding-bottom: 24px; margin-bottom: 28px; border-bottom: 1px solid var(--grey); }
   .brand-row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
   .brand { font-family: "Fraunces", serif; font-weight: 400; font-size: 42px; line-height: 1; letter-spacing: -0.02em; font-variation-settings: "opsz" 144, "SOFT" 50; }
   .brand em { font-style: italic; font-weight: 300; color: var(--ochre); }
-  .brand-sub { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
+  .brand-sub { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; display: block; margin-top: 4px; }
   .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  button.btn { font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 16px; background: transparent; color: var(--ink); border: 1px solid var(--ink); cursor: pointer; transition: all 0.18s ease; border-radius: 4px; }
+  
+  button.btn { font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 16px; background: transparent; color: var(--ink); border: 1px solid var(--ink); cursor: pointer; transition: all 0.18s ease; border-radius: 4px; white-space: nowrap; }
   button.btn:hover { background: var(--ink); color: var(--ivory); }
   button.btn.primary { background: var(--ink); color: var(--ivory); }
   button.btn.primary:hover { background: var(--ochre); border-color: var(--ochre); color: var(--ivory); }
@@ -38,13 +39,14 @@
   .client-bar input { width: 100%; border: none; background: transparent; font-family: "Fraunces", serif; font-size: 18px; font-weight: 400; color: var(--ink); padding: 0; outline: none; }
   .client-bar input:focus { border-bottom: 1px solid var(--ochre); }
 
-  .dropzone { border: 2px dashed var(--grey-2); padding: 64px 24px; text-align: center; margin: 24px 0; transition: all 0.2s ease; background: var(--ivory-2); border-radius: 12px; }
+  .dropzone { border: 2px dashed var(--grey-2); padding: 64px 24px; text-align: center; margin: 24px 0; transition: all 0.2s ease; background: var(--ivory-2); border-radius: 12px; cursor: pointer; }
   .dropzone.over { border-color: var(--ochre); background: var(--ochre-soft); transform: scale(1.01); }
   .dropzone h2 { font-family: "Fraunces", serif; font-weight: 400; font-size: 24px; margin-bottom: 8px; }
   .dropzone p { color: var(--ink-soft); margin-bottom: 20px; }
   .dropzone.hidden { display: none; }
 
-  nav.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--grey); margin-bottom: 0; overflow-x: auto; }
+  nav.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--grey); margin-bottom: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  nav.tabs::-webkit-scrollbar { display: none; }
   .tab { padding: 14px 22px; border: none; background: transparent; cursor: pointer; font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.15s ease; }
   .tab:hover { color: var(--ink); }
   .tab.active { color: var(--ink); border-bottom-color: var(--ochre); }
@@ -55,8 +57,8 @@
   .sheet-title { font-family: "Fraunces", serif; font-size: 24px; font-weight: 400; margin-bottom: 4px; letter-spacing: -0.01em; }
   .sheet-subtitle { font-size: 12px; color: var(--ink-soft); margin-bottom: 20px; letter-spacing: 0.04em; }
 
-  .table-container { overflow-x: auto; border-radius: 8px; box-shadow: var(--shadow); }
-  .order-table { width: 100%; border-collapse: collapse; background: var(--ivory); }
+  .table-container { width: 100%; overflow-x: auto; border-radius: 8px; box-shadow: var(--shadow); -webkit-overflow-scrolling: touch; background: var(--ivory); }
+  .order-table { width: 100%; border-collapse: collapse; background: var(--ivory); min-width: 800px; }
   .order-table th { background: var(--ink); color: var(--ivory); padding: 14px 10px; text-align: left; font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-right: 1px solid var(--ink-soft); position: sticky; top: 0; z-index: 10; }
   .order-table th:last-child { border-right: none; }
   .order-table th.num { text-align: right; }
@@ -68,20 +70,20 @@
   .order-table td.codice { font-family: "Fraunces", serif; font-weight: 500; font-size: 14px; letter-spacing: 0.02em; }
   .order-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
   .order-table td.center { text-align: center; }
-  .order-table td.desc { color: var(--ink-soft); font-size: 12px; }
+  .order-table td.desc { color: var(--ink-soft); font-size: 12px; line-height: 1.3; }
 
-  .img-cell { width: 80px; height: 80px; background: var(--grey); border: 1px dashed var(--grey-2); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; transition: all 0.15s ease; border-radius: 4px; }
+  .img-cell { width: 72px; height: 72px; background: var(--grey); border: 1px dashed var(--grey-2); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; transition: all 0.15s ease; border-radius: 4px; }
   .img-cell:hover { border-color: var(--ochre); background: var(--ochre-soft); }
   .img-cell img { width: 100%; height: 100%; object-fit: cover; display: block; background: #fff; }
   .img-cell .placeholder { font-size: 10px; color: var(--ink-soft); text-align: center; padding: 4px; letter-spacing: 0.04em; }
   
   .img-actions { position: absolute; top: 2px; right: 2px; display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s; }
   .img-cell:hover .img-actions { opacity: 1; }
-  .img-btn { width: 22px; height: 22px; background: rgba(26,25,23,.8); color: var(--ivory); border: none; cursor: pointer; font-size: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .img-btn { width: 24px; height: 24px; background: rgba(26,25,23,.85); color: var(--ivory); border: none; cursor: pointer; font-size: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
   .img-btn:hover { background: var(--ochre); }
   .img-btn.remove:hover { background: var(--red); }
 
-  input.qta-input { width: 70px; padding: 8px; border: 1px solid var(--grey-2); background: var(--ochre-soft); text-align: right; border-radius: 4px; font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  input.qta-input { width: 70px; padding: 8px; border: 1px solid var(--grey-2); background: var(--ochre-soft); text-align: right; border-radius: 4px; font-family: "DM Sans", sans-serif; font-size: 15px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; transition: all 0.2s; }
   input.qta-input:focus { outline: none; border-color: var(--ochre); background: #FBEFD7; box-shadow: 0 0 0 2px rgba(184, 131, 74, 0.2); }
   textarea.note-input { width: 100%; min-width: 140px; min-height: 40px; padding: 8px; border: 1px solid var(--grey-2); background: var(--ivory); border-radius: 4px; font-family: "DM Sans", sans-serif; font-size: 12px; color: var(--ink); resize: vertical; }
   textarea.note-input:focus { outline: none; border-color: var(--ochre); }
@@ -92,33 +94,79 @@
   tfoot .total-ordered { color: var(--ochre); font-size: 18px; }
 
   .grand-total { margin-top: 32px; padding: 28px 32px; border-radius: 8px; background: var(--ink); color: var(--ivory); display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); }
-  .grand-total .gt-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-2); }
-  .grand-total .gt-value { font-family: "Fraunces", serif; font-size: 36px; font-weight: 400; letter-spacing: -0.01em; color: var(--ochre); font-variant-numeric: tabular-nums; }
+  .grand-total .gt-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-2); margin-bottom: 4px; }
+  .grand-total .gt-value { font-family: "Fraunces", serif; font-size: 36px; font-weight: 400; letter-spacing: -0.01em; color: var(--ochre); font-variant-numeric: tabular-nums; line-height: 1; }
   .grand-total .gt-block { text-align: right; }
   .grand-total .gt-block.left { text-align: left; }
 
-  .status { position: fixed; bottom: 24px; right: 24px; border-radius: 4px; background: var(--ink); color: var(--ivory); padding: 14px 22px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow); z-index: 1000; opacity: 0; transform: translateY(12px); transition: all 0.25s ease; pointer-events: none; }
-  .status.show { opacity: 1; transform: translateY(0); }
+  .status { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(12px); border-radius: 20px; background: var(--ink); color: var(--ivory); padding: 12px 24px; font-size: 13px; font-weight: 500; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; opacity: 0; transition: all 0.3s ease; pointer-events: none; text-align: center; width: max-content; max-width: 90vw; }
+  .status.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  .lightbox { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(26,25,23,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .lightbox { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(26,25,23,0.95); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 20px; }
   .lightbox.active { opacity: 1; pointer-events: all; }
-  .lightbox img { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-  .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 30px; cursor: pointer; }
+  .lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); object-fit: contain; }
+  .lightbox-close { position: absolute; top: 20px; right: 20px; width: 44px; height: 44px; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); }
+
   .hidden { display: none !important; }
 
+  /* =========================================
+     🔥 OTTIMIZZAZIONI MOBILE EXTREME 
+     ========================================= */
   @media print {
     body { padding: 20px; background: white; }
     .actions, .dropzone, nav.tabs, input.qta-input, .img-actions { display: none; }
     .order-table, .grand-total { box-shadow: none; }
     .table-container { overflow: visible; }
   }
+
   @media (max-width: 900px) {
-    body { padding: 20px; }
-    .brand { font-size: 32px; }
-    .client-bar { grid-template-columns: 1fr 1fr; }
-    .order-table { font-size: 12px; }
-    .img-cell { width: 64px; height: 64px; }
-    .grand-total .gt-value { font-size: 28px; }
+    body { padding: 20px 20px 80px; }
+    .brand { font-size: 34px; }
+    .client-bar { grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 16px 12px 80px; }
+    
+    header.app { gap: 16px; margin-bottom: 20px; padding-bottom: 20px; }
+    .brand-row { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .brand { font-size: 28px; }
+    
+    /* I bottoni si dispongono a griglia per essere cliccabili facilmente col pollice */
+    .actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; gap: 8px; }
+    button.btn { width: 100%; padding: 12px 8px; font-size: 11px; }
+    
+    /* La client bar si compatta */
+    .client-bar { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 14px; }
+    .client-bar input { font-size: 15px; }
+    
+    .dropzone { padding: 40px 16px; }
+    .dropzone h2 { font-size: 20px; }
+
+    /* Riduzione spazi Tabella */
+    .sheet-title { font-size: 20px; }
+    .tab { padding: 12px 16px; font-size: 11px; }
+    
+    /* Compattiamo la tabella per farla stare meglio ma manteniamo lo scroll */
+    .order-table th, .order-table td { padding: 10px 8px; font-size: 12px; }
+    .order-table td.codice { font-size: 13px; }
+    .img-cell { width: 56px; height: 56px; }
+    .img-actions { opacity: 1; /* Sempre visibili i bottoncini su mobile per via del touch */ top: -4px; right: -4px; }
+    .img-btn { width: 20px; height: 20px; font-size: 10px; }
+    
+    input.qta-input { width: 60px; padding: 8px 6px; font-size: 14px; }
+    textarea.note-input { min-width: 120px; font-size: 11px; }
+
+    /* Il Grand Total si impagina in verticale */
+    .grand-total { flex-direction: column; align-items: stretch; gap: 20px; padding: 24px 20px; margin-top: 24px; }
+    .grand-total .gt-block { text-align: left; }
+    .grand-total .gt-value { font-size: 32px; }
+  }
+
+  @media (max-width: 380px) {
+    /* Per schermi piccolissimi (iPhone SE) */
+    .client-bar { grid-template-columns: 1fr; }
+    .brand { font-size: 24px; }
   }
 </style>
 </head>
@@ -128,30 +176,30 @@
   <div class="brand-row">
     <div>
       <h1 class="brand">Commission <em>Reader</em></h1>
-      <div class="brand-sub">Andrea Caenazzo · Agente Commerciale</div>
+      <span class="brand-sub">Andrea Caenazzo · Agente Commerciale</span>
     </div>
     <div class="actions">
       <button class="btn ghost" id="btnLoad">📂 Carica xlsx</button>
       <button class="btn primary" id="btnSave">💾 Esporta xlsx</button>
-      <button class="btn" id="btnReport">🧾 Report stampa</button>
+      <button class="btn" id="btnReport">🧾 Stampa PDF</button>
       <button class="btn ghost danger" id="btnReset">Reset</button>
       <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none">
     </div>
   </div>
 
   <div class="client-bar">
-    <div><label>Cliente</label><input type="text" id="cliente" placeholder="Nome cliente"></div>
+    <div><label>Cliente</label><input type="text" id="cliente" placeholder="Es. Pittarello"></div>
     <div><label>Data</label><input type="date" id="data"></div>
     <div><label>Stagione</label><input type="text" id="stagione" placeholder="PE26 / AI26"></div>
-    <div><label>Riferimento</label><input type="text" id="riferimento" placeholder="Buyer / punto vendita"></div>
+    <div><label>Riferimento</label><input type="text" id="riferimento" placeholder="Buyer / Negozio"></div>
   </div>
 </header>
 
 <main>
-  <div id="dropzone" class="dropzone">
-    <h2>Trascina qui un file .xlsx</h2>
-    <p>Le immagini già presenti nell'Excel verranno lette automaticamente!</p>
-    <button class="btn primary" onclick="document.getElementById('fileInput').click()">Seleziona file Excel</button>
+  <div id="dropzone" class="dropzone" onclick="document.getElementById('fileInput').click()">
+    <h2>Tocca qui per caricare l'Excel</h2>
+    <p>Le immagini già presenti verranno lette automaticamente!</p>
+    <button class="btn primary" style="pointer-events:none;">Seleziona file</button>
   </div>
 
   <div id="app" class="hidden">
@@ -160,10 +208,10 @@
     <div class="grand-total" id="grandTotal">
       <div class="gt-block left">
         <div class="gt-label">Totale ordine complessivo</div>
-        <div class="brand-sub" id="gtBreakdown" style="margin-top:6px;"></div>
+        <div class="brand-sub" id="gtBreakdown" style="margin-top:6px; color: var(--grey-2)"></div>
       </div>
       <div class="gt-block">
-        <div class="gt-label">Importo</div>
+        <div class="gt-label">Importo stimato</div>
         <div class="gt-value" id="gtValue">€ 0,00</div>
       </div>
     </div>
@@ -171,10 +219,14 @@
 </main>
 
 <div class="status" id="status"></div>
-<div class="lightbox" id="lightbox" onclick="closeLightbox()"><span class="lightbox-close">&times;</span><img id="lightbox-img" src="" alt="Zoom"></div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-close">&times;</div>
+  <img id="lightbox-img" src="" alt="Zoom" onclick="event.stopPropagation()">
+</div>
 
 <script>
-const STORAGE_KEY = 'caenazzo_copia_commissioni_v2_1'; 
+// Mantengo la stessa chiave v3.0 per non farti perdere il file che hai già caricato e che magari funziona!
+const STORAGE_KEY = 'caenazzo_copia_commissioni_v3_0'; 
 const state = { sheets: [], activeSheet: 0, meta: { cliente: '', data: '', stagione: '', riferimento: '' } };
 
 const fmtEur = n => '€ ' + (n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -186,24 +238,24 @@ function closeLightbox() { document.getElementById('lightbox').classList.remove(
 function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {} }
 function load() { try { const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return false; Object.assign(state, JSON.parse(raw)); return state.sheets && state.sheets.length > 0; } catch(e) { return false; } }
 
-// Helper per convertire il binario delle immagini in formato web
 function bufferToBase64(buffer) {
-  let binary = '';
-  const bytes = new Uint8Array(buffer);
-  const len = bytes.byteLength;
+  let binary = ''; const bytes = new Uint8Array(buffer); const len = bytes.byteLength;
   for (let i = 0; i < len; i++) { binary += String.fromCharCode(bytes[i]); }
   return window.btoa(binary);
 }
 
-// ---- HYBRID ENGINE: Caricamento Sicuro Dati + Immagini ----
 document.getElementById('fileInput').onchange = async e => {
   const file = e.target.files[0]; if (!file) return;
-  toast('Estrazione dati in corso...');
+  toast('Lettura tabella in corso...');
   
   try {
-    const arrayBuffer = await file.arrayBuffer();
+    const arrayBuffer = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = ev => resolve(ev.target.result);
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file);
+    });
     
-    // 1. MOTORE PRINCIPALE (SheetJS): Estrae i testi in modo infallibile
     const wbXLSX = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
     const sheets = [];
     
@@ -243,63 +295,60 @@ document.getElementById('fileInput').onchange = async e => {
         if (!cod || cod.toLowerCase() === 'totale') continue;
         
         rows.push({
-          rowNum: i, // Indice riga salvato per allineare l'immagine successivamente
+          rowNum: i + 1,
           codice: cod,
           descrizione: String(r[ci.desc] || '').trim(),
           imballaggi: String(r[ci.imb] || '').trim(),
           qtaStock: Number(r[ci.qta]) || 0,
           prezzo: Number(r[ci.prezzo]) || 0,
-          qtaOrdinata: 0,
-          note: '',
-          image: null
+          qtaOrdinata: 0, note: '', image: null
         });
       }
       if (rows.length) sheets.push({ name, title, rows });
     });
 
-    if (!sheets.length) { toast('Nessun foglio valido (serve colonna "Codice")'); return; }
+    if (!sheets.length) { toast('Nessun foglio valido trovato (manca colonna "Codice").'); return; }
 
-    // 2. MOTORE SECONDARIO (ExcelJS): Cerca e aggancia le immagini in background
-    try {
-      const wbExcelJS = new ExcelJS.Workbook();
-      await wbExcelJS.xlsx.load(arrayBuffer.slice(0));
+    state.sheets = sheets; state.activeSheet = 0; save(); render(); 
+    toast('Tabella pronta! Estrazione foto in background...');
 
-      wbExcelJS.eachSheet((ws) => {
-        const targetSheet = sheets.find(s => s.name === ws.name);
-        if (!targetSheet) return;
+    setTimeout(async () => {
+      try {
+        const wbExcelJS = new ExcelJS.Workbook();
+        await wbExcelJS.xlsx.load(arrayBuffer);
 
-        const images = ws.getImages();
-        images.forEach(img => {
-          try {
-            if (img.range && img.range.tl) {
-              const imgData = wbExcelJS.getImage(img.imageId);
-              if (imgData) {
-                const imgRow = Math.floor(img.range.tl.nativeRow); // Riga nativa in Excel
-                // Cerca la riga di dati che corrisponde (con un margine di tolleranza di 1 riga)
-                const targetRow = targetSheet.rows.find(r => Math.abs(r.rowNum - imgRow) <= 1);
-                
-                if (targetRow && !targetRow.image) {
-                  const base64 = bufferToBase64(imgData.buffer);
-                  const ext = imgData.extension === 'jpeg' ? 'jpeg' : (imgData.extension || 'png');
-                  targetRow.image = `data:image/${ext};base64,${base64}`;
+        let immaginiTrovate = 0;
+        wbExcelJS.eachSheet((ws) => {
+          const targetSheet = state.sheets.find(s => s.name === ws.name);
+          if (!targetSheet) return;
+
+          const images = ws.getImages();
+          images.forEach(img => {
+            try {
+              if (img.range && img.range.tl) {
+                const imgData = wbExcelJS.getImage(img.imageId);
+                if (imgData) {
+                  const imgRow = Math.floor(img.range.tl.nativeRow) + 1;
+                  const targetRow = targetSheet.rows.find(r => Math.abs(r.rowNum - imgRow) <= 1);
+                  
+                  if (targetRow && !targetRow.image) {
+                    const base64 = bufferToBase64(imgData.buffer);
+                    const ext = imgData.extension === 'jpeg' ? 'jpeg' : (imgData.extension || 'png');
+                    targetRow.image = `data:image/${ext};base64,${base64}`;
+                    immaginiTrovate++;
+                  }
                 }
               }
-            }
-          } catch (err) { /* Ignoriamo errori di singole immagini corrotte */ }
+            } catch (err) {}
+          });
         });
-      });
-    } catch (err) {
-      console.warn('Lettura immagini non supportata per questo file. Mostro solo dati.', err);
-    }
-
-    state.sheets = sheets;
-    state.activeSheet = 0;
-    save(); render(); toast(`Caricati ${sheets.length} fogli con successo!`);
+        
+        if (immaginiTrovate > 0) { save(); render(); toast(`Perfetto! ${immaginiTrovate} foto importate.`); }
+        else { toast('Pronto! (Nessuna foto trovata)'); }
+      } catch (errBackground) { toast('Tabella pronta. (File non supportato per le foto)'); }
+    }, 150);
     
-  } catch (err) {
-    console.error(err);
-    toast('Errore critico durante la lettura dell\'Excel');
-  }
+  } catch (errCritico) { alert("ERRORE:\n" + errCritico.message + "\nRicarica la pagina e riprova."); toast('Errore.'); }
 };
 
 const dz = document.getElementById('dropzone');
@@ -308,10 +357,7 @@ const dz = document.getElementById('dropzone');
 document.addEventListener('drop', e => {
   if (e.target.closest('.img-cell')) return;
   const f = e.dataTransfer?.files[0];
-  if (f && /\.xlsx?$/i.test(f.name)) {
-    document.getElementById('fileInput').files = e.dataTransfer.files;
-    document.getElementById('fileInput').onchange({ target: { files: [f] } });
-  }
+  if (f && /\.xlsx?$/i.test(f.name)) { document.getElementById('fileInput').files = e.dataTransfer.files; document.getElementById('fileInput').onchange({ target: { files: [f] } }); }
 });
 
 function render() {
@@ -341,16 +387,16 @@ function renderSheet() {
 
   wrap.innerHTML = `
     <div class="sheet-title">${escapeHtml(s.title)}</div>
-    <div class="sheet-subtitle">${s.rows.length} articoli · Stock totale ${fmtInt(totalStock)} pz · Valore stock ${fmtEur(totalValue)}</div>
+    <div class="sheet-subtitle">${s.rows.length} articoli · Stock ${fmtInt(totalStock)} pz</div>
     <div class="table-container">
       <table class="order-table">
         <thead>
           <tr>
-            <th style="width:110px">Codice</th><th style="width:90px">Immagine</th><th>Descrizione</th>
-            <th style="width:90px" class="center">Imballi</th><th style="width:80px" class="num">Stock</th>
-            <th style="width:90px" class="num">Prezzo</th><th style="width:100px" class="num">Val. Stock</th>
+            <th style="width:100px">Codice</th><th style="width:85px">Immagine</th><th style="min-width:180px">Descrizione</th>
+            <th style="width:80px" class="center">Imballi</th><th style="width:70px" class="num">Stock</th>
+            <th style="width:85px" class="num">Prezzo</th><th style="width:100px" class="num">Val. Stock</th>
             <th style="width:90px" class="center">Q.tà Ord.</th><th style="width:100px" class="num">Tot. Ord.</th>
-            <th style="width:150px">Note</th>
+            <th style="min-width:150px">Note</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
@@ -383,12 +429,12 @@ function renderRow(r, idx) {
   imgCell.className = 'img-cell';
   
   if (r.image) {
-    imgCell.innerHTML = `<img src="${r.image}" alt=""><div class="img-actions"><button class="img-btn zoom" title="Ingrandisci">🔍</button><button class="img-btn remove" title="Rimuovi">×</button></div>`;
+    imgCell.innerHTML = `<img src="${r.image}" alt=""><div class="img-actions"><button class="img-btn zoom" title="Zoom">🔍</button><button class="img-btn remove" title="Rimuovi">×</button></div>`;
     imgCell.querySelector('.remove').onclick = (e) => { e.stopPropagation(); r.image = null; save(); renderSheet(); };
     imgCell.querySelector('.zoom').onclick = (e) => openLightbox(e, r.image);
     imgCell.querySelector('img').onclick = (e) => openLightbox(e, r.image);
   } else {
-    imgCell.innerHTML = `<div class="placeholder">+ Foto<br><span style="opacity:.6">clicca o incolla</span></div>`;
+    imgCell.innerHTML = `<div class="placeholder">+ Foto</div>`;
     imgCell.onclick = () => pickImage(r);
   }
   
@@ -454,8 +500,8 @@ document.addEventListener('paste', e => {
 });
 
 document.getElementById('btnSave').onclick = async () => {
-  if (!state.sheets.length) { toast('Nessun dato da esportare'); return; }
-  toast('Generazione xlsx in corso...');
+  if (!state.sheets.length) { toast('Nessun dato'); return; }
+  toast('Generazione xlsx...');
   const wb = new ExcelJS.Workbook(); wb.creator = 'Andrea Caenazzo'; wb.created = new Date();
   const INK = 'FF1A1917', IVORY = 'FFFAF7F2', IVORY2 = 'FFF2ECE1', OCHRE = 'FFB8834A', OCHRESOFT = 'FFE8D4B8', GREY = 'FFE8E3DB';
 
@@ -486,7 +532,7 @@ document.getElementById('btnSave').onclick = async () => {
             const imageId = wb.addImage({ base64: base64Data, extension: 'png' });
             ws.addImage(imageId, { tl: { col: 1.1, row: rowNum - 0.9 }, ext: { width: 75, height: 75 } });
           }
-        } catch(e) { console.warn('Errore incorporamento immagine', e); }
+        } catch(e) {}
       }
     });
 
@@ -495,7 +541,7 @@ document.getElementById('btnSave').onclick = async () => {
     ws.views = [{ state: 'frozen', ySplit: 4 }];
   }
 
-  const buffer = await wb.xlsx.writeBuffer(); const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const cliente = (state.meta.cliente || 'ordine').replace(/[^a-z0-9]/gi, '_').toLowerCase(); const date = state.meta.data || new Date().toISOString().slice(0, 10); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `ordine_${cliente}_${date}.xlsx`; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); toast('Esportato .xlsx con immagini incluse correttamente!');
+  const buffer = await wb.xlsx.writeBuffer(); const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const cliente = (state.meta.cliente || 'ordine').replace(/[^a-z0-9]/gi, '_').toLowerCase(); const date = state.meta.data || new Date().toISOString().slice(0, 10); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `ordine_${cliente}_${date}.xlsx`; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); toast('Esportato!');
 };
 
 document.getElementById('btnReport').onclick = () => {
