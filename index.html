@@ -1,9 +1,14 @@
+Certo! Ecco il codice completo, unito e aggiornato con **tutte le modifiche** (il fix iniziale per le immagini di Claude, la Lightbox per lo zoom, e quest'ultimo aggiornamento per far digerire le immagini ad Apple Numbers e Google Fogli).
+
+Copia l'intero blocco qui sotto, incollalo al posto di tutto quello che c'è attualmente nel tuo file `index.html` su GitHub, e premi **Commit changes**.
+
+```html
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Copia Commissioni · Andrea Caenazzo</title>
+<title>Commission Reader · Andrea Caenazzo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -256,7 +261,7 @@
 <header class="app">
   <div class="brand-row">
     <div>
-      <h1 class="brand">Copia <em>Commissioni</em></h1>
+      <h1 class="brand">Commission <em>Reader</em></h1>
       <div class="brand-sub">Andrea Caenazzo · Agente Commerciale</div>
     </div>
     <div class="actions">
@@ -319,7 +324,7 @@
 </div>
 
 <script>
-const STORAGE_KEY = 'caenazzo_copia_commissioni_v1_1'; // Cambiato per evitare conflitti con vecchi dati buggati
+const STORAGE_KEY = 'caenazzo_copia_commissioni_v1_1';
 const state = {
   sheets: [],
   activeSheet: 0,
@@ -605,7 +610,6 @@ function loadImageFile(row, file) {
   reader.onload = e => {
     const img = new Image();
     img.onload = () => {
-      // Ottimizzazione per l'esportazione in Excel (max 600px per mantenere qualità senza appesantire)
       const max = 600; 
       let w = img.width, h = img.height;
       if (w > max || h > max) {
@@ -615,13 +619,12 @@ function loadImageFile(row, file) {
       const canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
       
-      // Sfondo bianco per supportare le PNG trasparenti esportate in JPEG
       const ctx = canvas.getContext('2d');
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, w, h);
       ctx.drawImage(img, 0, 0, w, h);
       
-      row.image = canvas.toDataURL('image/jpeg', 0.85); // 85% qualità JPEG
+      row.image = canvas.toDataURL('image/jpeg', 0.85);
       save(); renderSheet();
     };
     img.src = e.target.result;
@@ -682,7 +685,7 @@ document.addEventListener('drop', e => {
   el.oninput = () => { state.meta[k] = el.value; save(); };
 });
 
-// ---- Export XLSX (ExcelJS, with embedded images) - IL FIX È QUI! ----
+// ---- Export XLSX (ExcelJS, with embedded images) - FIX DEFINITIVO ANCORAGGIO ----
 document.getElementById('btnSave').onclick = async () => {
   if (!state.sheets.length) { toast('Nessun dato da esportare'); return; }
   toast('Generazione xlsx in corso...');
@@ -770,17 +773,16 @@ document.getElementById('btnSave').onclick = async () => {
       row.getCell(9).alignment = { horizontal: 'right', vertical: 'middle' };
       row.getCell(9).font = { name: 'Calibri', size: 11, bold: true };
 
-      // FIX IMMAGINI: Passiamo a exceljs la stringa base64 pura (match[2]), non l'intero dataURL
       if (r.image) {
         try {
           const match = r.image.match(/^data:image\/(\w+);base64,(.+)$/);
           if (match && match[2]) {
             const ext = match[1] === 'jpg' ? 'jpeg' : match[1];
-            // L'errore di Claude era qui: passava r.image invece di match[2]
             const imageId = wb.addImage({ base64: match[2], extension: ext });
+            
             ws.addImage(imageId, {
-              tl: { col: 1.1, row: rowNum - 1 + 0.1 },
-              ext: { width: 78, height: 78 },
+              tl: { col: 1, row: rowNum - 1 },
+              br: { col: 2, row: rowNum },
               editAs: 'oneCell'
             });
           }
@@ -892,3 +894,4 @@ else render();
 </script>
 </body>
 </html>
+```
